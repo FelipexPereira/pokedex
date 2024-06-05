@@ -1,0 +1,36 @@
+<form class="example-form" [formGroup]="nameForm">
+  <mat-form-field class="example-full-width">
+    <mat-label>Favorite Pokémon</mat-label>
+    <input matInput matInput formControlName="namePoke" value="charizard">
+  </mat-form-field>
+  <button
+            mat-flat-button
+            color="primary"
+            class="button"
+            (click)="getNamePoke()"
+          >
+            Buscar
+          </button>
+</form>
+
+<mat-card class="card-main">
+  @for (index of final; track index) {
+    <div class="img-poke">
+      <img mat-card-image [src]="index.img" alt="Pokemon" class="img"
+    />
+    </div>
+
+      <mat-card-header class="container-info">
+        <h3>Nº{{index.id}}</h3>
+        <h1 class="name">{{index.nome}}</h1>
+      </mat-card-header>
+
+      <div class="container-tipo">
+        @for (index of tipos; track index) {
+        <div class="tipo">{{ index }}</div>
+        } @empty {
+        <img src="../../../assets/hayden-vanearden-pkmn-link1.jpg" alt="">
+        }
+      </div>
+  }
+</mat-card>
