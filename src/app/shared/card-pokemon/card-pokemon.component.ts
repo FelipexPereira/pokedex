@@ -34,7 +34,7 @@ export class CardPokemonComponent implements OnInit {
   public id: string = '';
   public name: string = '';
   public tipo: Array<TypesApi> = [];
-  public tipos: Array<TypesApi> = [];
+  public tipos: Array<any> = [];
   public img: string = '';
   public listaPokemons: Array<NameApi> = [];
   public final: Array<Final> = [];
@@ -47,19 +47,23 @@ export class CardPokemonComponent implements OnInit {
   ) {}
   //
   ngOnInit(): void {
-    this.getPoke();
+    // this.getPoke();
+
     this.nameForm = this.formBuilder.group({
       namePoke: [''],
     });
+
     this.getApiToda();
+
     this.getInfo();
+
     console.log('TESTANDO', this.final);
+    console.log('TIPOS', this.tipos)
   }
   //
 
   public getNamePoke() {
     this.apipoke.pesquisaPokemon = this.nameForm.controls['namePoke'].value;
-    this.getPoke();
   }
   //
   public getApiToda() {
@@ -68,25 +72,7 @@ export class CardPokemonComponent implements OnInit {
         this.listaPokemons = data.results.map((resultado: any) => {
           return { value: resultado.name };
         });
-        // console.log('listaPokemons', this.listaPokemons);
-      },
-    });
-  }
-
-  //
-  public getPoke() {
-    //
-    this.apipoke.getPesquisaPokemon({}).subscribe({
-      next: (data: any) => {
-        console.log('DATA', data);
-
-        this.id = data.id;
-        this.name = data.species.name;
-        this.tipo = data.types;
-        this.img = data.sprites.other['official-artwork'].front_default;
-      },
-      error: (err) => {
-        console.error('Error fetching Pokémon data:', err);
+        console.log('listaPokemons', this.listaPokemons);
       },
     });
   }
@@ -94,29 +80,21 @@ export class CardPokemonComponent implements OnInit {
   public getInfo() {
     for (let index = 0; index < this.listaPokemons.length; index++) {
       const nome = this.listaPokemons[index].value;
-      // console.log('DEU CERTO?', nome);
-
-      this.apipoke.nameAtual = nome;
+      // console.log(nome, 'NOME');
       // console.log('ATUAL', this.apipoke.nameAtual);
 
-      this.apipoke.getInfoPoke({}).subscribe({
+      this.apipoke.getInfoPoke(nome).subscribe({
         next: (data: any) => {
-          this.id = data.id;
-          this.name = data.species.name;
-          // this.tipo = data.types;
-          this.tipo = data.types;
-          this.img = data.sprites.other['official-artwork'].front_default;
-          // console.log('tipo', this.final);
           this.final.push({
-            id: this.id,
-            nome: this.name,
-            img: this.img,
+            id: data.id,
+            nome: data.species.name,
+            img: data.sprites.other['official-artwork'].front_default,
+            tipe: data.types,
           });
-          this.tipos.push(
-            {type: {name:}}
-          );
-          console.log('TIPOS',this.tipos)
-          console.log('TIPO',this.tipo)
+
+          this.tipos.push({
+            tipo: data.types
+          })
         },
         error: (err) => {
           console.error('Error fetching Pokémon data:', err);

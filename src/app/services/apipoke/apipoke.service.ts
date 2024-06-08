@@ -8,7 +8,6 @@ import { TypesApi } from '../../models/interfaces/apiDatas';
 export class ApipokeService {
   public pesquisaPokemon: string = 'pikachu';
   public listaPokemons: Array<TypesApi> = [];
-  public nameAtual: string = '';
   public infoPokemons: Array<any> = [];
 
   constructor(private HttpClient: HttpClient) {}
@@ -27,7 +26,7 @@ export class ApipokeService {
 
   public getInfoPoke(param: any){
     return this.HttpClient.get(
-      `https://pokeapi.co/api/v2/pokemon/${this.nameAtual}`
+      `https://pokeapi.co/api/v2/pokemon/${param}`
     );
   }
 }

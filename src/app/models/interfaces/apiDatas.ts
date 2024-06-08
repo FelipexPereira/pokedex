@@ -7,10 +7,10 @@ export interface DatasApi {
 
   sprites: {
     other: {
-        showdown: {
-          front_default: string
-        }
-    }
+      showdown: {
+        front_default: string;
+      };
+    };
   };
 
   types: {
@@ -21,17 +21,18 @@ export interface DatasApi {
 }
 
 export interface TypesApi {
-    type: {
-      name: string;
-    };
+  type: {
+    name: string;
+  };
 }
 
 export interface NameApi {
-    value: string
+  value: string;
 }
 
 export interface Final {
-id: string,
-nome: string,
-img: string
+  id: string;
+  nome: string;
+  img: string;
+  tipe: [{ type: [{ name: string }] }];
 }
